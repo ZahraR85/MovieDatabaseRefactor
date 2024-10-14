@@ -1,0 +1,51 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@layer base {
+  .movie-button {
+      @apply inline-flex 
+              justify-center
+              items-center 
+              py-1 
+              px-3 
+              text-base 
+              font-medium 
+              text-center 
+              rounded-lg 
+              border 
+              border-gray-300 
+              focus:ring-4 
+              focus:ring-gray-100 
+              dark:text-white 
+              dark:border-gray-700 
+              dark:hover:bg-gray-700 
+              dark:focus:ring-gray-800
+              disabled:bg-gray-200
+              disabled:hover:bg-gray-200;
+  }
+  .movie-button-green {
+      @apply text-white 
+              bg-green-700 
+              hover:bg-green-800;
+  }
+  .movie-button-red {
+      @apply text-white 
+              bg-red-700 
+              hover:bg-red-800;
+  }
+}
+.progress-ring__circle {
+  transition: stroke-dashoffset 0.35s;
+  transform: rotate(-90deg);
+  transform-origin: 50% 0;
+}
+
+.action-button.active > svg {
+  fill:green;
+}
+.action-button:hover > svg {
+  fill:green;
+}
+.action-button.active:hover > svg {
+  fill:#c82c2c;
+}
