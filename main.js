@@ -1,16 +1,11 @@
-import { initialData } from './modules/initialData.js';
+import {initialData} from './modules/initialData.js';
 
-import { renderListView, renderFavoritesListView, renderDetailsView, renderModalComments } from './modules/ui.js';
-import { saveListToLocalStorage, getListFromLocalStorage, checkInStorage } from './modules/storage.js';
-import { fetchInitial, fetchMovieDetails } from './modules/network.js';
+import {renderModalComments} from './modules/ui.js';
+import {fetchMovies} from './modules/network.js';
 
-import { Movie } from './modules/classes/Movie.js';
-import { MovieList } from './modules/classes/MovieList.js';
-import { MovieFavoritesList } from './modules/classes/MovieFavoritesList.js';
-
-
-
-
+import {Movie} from './modules/classes/Movie.js';
+import {MovieList} from './modules/classes/MovieList.js';
+import {MovieFavoritesList} from './modules/classes/MovieFavoritesList.js';
 
 /**
  * handle everything inside the page...
@@ -40,44 +35,50 @@ class Main {
         this.#movieFavoritesList.mainInstance = this;
 
         // add event listener for search
-        document.querySelector('#searchForm').addEventListener('submit', (event) => this.eventHandler(event))
+        document.querySelector('#searchForm').addEventListener('submit', (event) => this.eventHandler(event));
     }
 
     // getters & setters
     set apiKey(val) {
-        this.#apiKey = val
+        this.#apiKey = val;
     }
+
     get apiKey() {
-        return this.#apiKey
+        return this.#apiKey;
     }
 
     set pathToTmdb(val) {
-        this.#pathToTmdb = val
+        this.#pathToTmdb = val;
     }
+
     get pathToTmdb() {
-        return this.#pathToTmdb
+        return this.#pathToTmdb;
     }
 
     set pathToImages(val) {
-        this.#pathToImages = val
+        this.#pathToImages = val;
     }
+
     get pathToImages() {
-        return this.#pathToImages
+        return this.#pathToImages;
     }
 
     set initialCall(val) {
-        this.#initialCall = val
+        this.#initialCall = val;
     }
+
     get initialCall() {
-        return this.#initialCall
+        return this.#initialCall;
     }
 
     set movieListView(val) {
         this.#movieListView = val;
     }
+
     set movieFavoritesListView(val) {
         this.#movieFavoritesListView = val;
     }
+
     set detailView(val) {
         this.#detailView = val;
     }
@@ -86,21 +87,21 @@ class Main {
         this.#language = val;
     }
 
-
     set localStorageName(val) {
         this.#localStorageName = val;
         // pass the value to the favorites list, too
         this.#movieFavoritesList.localStorageName = val;
     }
+
     get localStorageName() {
-        return this.#localStorageName
+        return this.#localStorageName;
     }
 
     /**
      * the initial fetch from TMDB (retrieves the first page of results based on the initial path)
      */
-    fetchInitial() {
-        fetchInitial(this);
+    async fetchMovies() {
+        await fetchMovies(this, 'initial');
     }
 
     /**
@@ -108,7 +109,6 @@ class Main {
      * @param {Array} arr the array of movieObjects fetched  before
      */
     populateMovieList(arr = []) {
-        console.info('populating the MovieList')
         arr.forEach(movieObject => {
             // create new instance of Movie (and pass the data object)
             const movie = new Movie(movieObject);
@@ -125,7 +125,6 @@ class Main {
     }
 
     populateMovieFavoritesList(arr = []) {
-        console.info('populating the movieFavoritesList')
         arr.forEach(movieObject => {
             // create new instance of Movie (and pass the data object)
             const movie = new Movie(movieObject);
@@ -169,9 +168,9 @@ class Main {
                 outContainer.innerHTML = '';
                 let movie;
                 if (sourceList === 'MovieList') {
-                    movie = this.#movieList.getMovieById(movieId)
+                    movie = this.#movieList.getMovieById(movieId);
                 } else {
-                    movie = this.#movieFavoritesList.getMovieById(movieId)
+                    movie = this.#movieFavoritesList.getMovieById(movieId);
                 }
                 content = movie.renderView(this.pathToImages);
                 outContainer.appendChild(content);
@@ -180,14 +179,14 @@ class Main {
 
     /**
      * handle the events sent to main instance
-     * @param {Event} event 
+     * @param {Event} event
      */
     eventHandler(event) {
         const dataset = event.currentTarget.dataset;
-        console.log(event)
+        console.log(event);
         switch (dataset.action) {
             case 'view':
-                console.log('view')
+                console.log('view');
                 // show detail view
                 this.renderView('details', dataset.caller, dataset.id);
 
@@ -197,7 +196,7 @@ class Main {
             case 'add':
                 // add movie to favorites
                 const movie = this.#movieList.getMovieById(dataset.id);
-                event.currentTarget.classList.add('active')
+                event.currentTarget.classList.add('active');
                 this.#movieFavoritesList.addMovie(movie);
 
                 this.renderView('movieFavoritesList');
@@ -210,8 +209,8 @@ class Main {
                 btnsAdd.forEach((btn) => {
                     btn.classList.add('active');
                     btn.dataset.action = 'remove';
-                })
-               
+                });
+
                 break;
             case 'remove':
                 // remove movies from favorites
@@ -220,14 +219,14 @@ class Main {
                 if (confirm(`really remove "${movieR.data.title}" from your favorites?`)) {
 
                     this.#movieFavoritesList.removeMovie(movieR);
-                    this.renderView('movieFavoritesList')
+                    this.renderView('movieFavoritesList');
                 }
 
                 const btnsRemove = document.querySelectorAll(`button[data-action="remove"][data-id="${dataset.id}"]`);
                 btnsRemove.forEach((btn) => {
                     btn.classList.remove('active');
                     btn.dataset.action = 'add';
-                })
+                });
 
 
                 break;
@@ -247,12 +246,12 @@ class Main {
                 break;
             case 'addComment':
                 event.preventDefault();
-                console.log('adding comment')
+                console.log('adding comment');
                 const movieCAdd = this.#movieFavoritesList.getMovieById(dataset.id);
                 const text = document.querySelector('#commentText').value;
                 if (text !== '') movieCAdd.addComment(text);
 
-                this.#movieFavoritesList.saveListToLocalStorage(this.#movieFavoritesList.list)
+                this.#movieFavoritesList.saveListToLocalStorage(this.#movieFavoritesList.list);
 
                 document.querySelector('#modal').classList.add('hidden');
                 break;
@@ -261,7 +260,7 @@ class Main {
                 movieCRem.removeCommentById(dataset.commentId);
                 document.querySelector('#modal').classList.add('hidden');
 
-                this.#movieFavoritesList.saveListToLocalStorage(this.#movieFavoritesList.list)
+                this.#movieFavoritesList.saveListToLocalStorage(this.#movieFavoritesList.list);
 
                 break;
 
@@ -270,7 +269,7 @@ class Main {
                 event.preventDefault();
                 const searchTerm = document.querySelector('#searchString').value;
                 if (searchTerm) {
-                    this.search(searchTerm)
+                    this.search(searchTerm);
                 } else {
                     alert('do you really want to search for nothing???');
                 }
@@ -283,14 +282,14 @@ class Main {
         console.log('searching for ', searchTerm);
         searchTerm = encodeURI(searchTerm);
 
-        const url = `https://api.themoviedb.org/3/search/movie?query=${searchTerm}&include_adult=false&language=en-US&page=1&api_key=${this.apiKey}`;
-        const rsults = fetch(url)
+        fetch(`https://api.themoviedb.org/3/search/movie?query=${searchTerm}&include_adult=false&language=en-US&page=1&api_key=${this.apiKey}`)
             .then(response => response.json())
             .then(response => {
                 this.showSearchResults(response.results, searchTerm);
             })
             .catch(err => console.error(err));
     }
+
     async showSearchResults(results, searchTerm) {
         if (results.length) {
             // clear the movie list;
@@ -308,8 +307,8 @@ const mainInstance = new Main();
 
 // add initial data  to main 
 for (let key in initialData) {
-    mainInstance[key] = initialData[key]
+    mainInstance[key] = initialData[key];
 }
 
 // place the initial call 
-mainInstance.fetchInitial();
+mainInstance.fetchMovies();

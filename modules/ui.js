@@ -1,7 +1,7 @@
 // modules/svg.js
 
-import { createPercentageSvg } from './svg.js';
-import { checkInStorage } from './storage.js';
+import {createPercentageSvg} from './svg.js';
+import {checkInStorage} from './storage.js';
 
 
 /**
@@ -64,12 +64,9 @@ export const renderListView = (caller) => {
 
 
     const ul = document.createElement('ul');
-    ul.classList = 'py-8 px-4 lg:px-6 flex gap-8 overflow-x-scroll bg-red-900'
+    ul.classList = 'py-8 px-4 lg:px-6 flex gap-8 overflow-x-scroll bg-red-900';
 
     caller.list.forEach((movie) => {
-
-        console.log(movie.data.title + ' is fav = ' + checkInStorage(movie));
-
         const li = document.createElement('li');
         li.id = 'movie-' + movie.id;
         li.classList = 'card card w-52 max-w-52 flex-none shadow-lg rounded-lg bg-gray-100 relative';
@@ -87,9 +84,9 @@ export const renderListView = (caller) => {
 
         const img = document.createElement('img');
         img.classList = 'rounded-t-lg hover:opacity-50';
-        if(movie.data.poster_path){
+        if (movie.data.poster_path) {
             img.src = 'https://media.themoviedb.org/t/p/w220_and_h330_face' + movie.data.poster_path;
-        }else{
+        } else {
             img.src = 'https://placehold.co/220x330?text=no%20image%20available';
         }
         link.addEventListener('click', (event) => caller.mainInstance.eventHandler(event));
@@ -104,7 +101,7 @@ export const renderListView = (caller) => {
 
         span.appendChild(svg);
 
-        link.appendChild(span)
+        link.appendChild(span);
 
         card.appendChild(link);
 
@@ -112,9 +109,10 @@ export const renderListView = (caller) => {
         const addBtn = document.createElement('button');
         addBtn.classList = 'action-button w-10 h-10 absolute top-[-1rem] right-[-1rem]';
         //addBtn.textContent = 'add';
-        addBtn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 260 245" fill="#c82c2c">
-<path d="m56,237 74-228 74,228L10,96h240"/>
-</svg>`;
+        addBtn.innerHTML =
+            `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 260 245" fill="#c82c2c">
+                <path d="m56,237 74-228 74,228L10,96h240"/>
+            </svg>`;
         addBtn.dataset.id = movie.data.id;
         addBtn.dataset.caller = caller.constructor.name; // pass the name of the Class
         addBtn.addEventListener('click', (event) => caller.mainInstance.eventHandler(event));
@@ -127,7 +125,7 @@ export const renderListView = (caller) => {
         card.appendChild(addBtn);
 
         const title = document.createElement('h3');
-        title.classList = 'p-2 text-center text-sm'
+        title.classList = 'p-2 text-center text-sm';
         title.textContent = movie.data.title;
         descDiv.appendChild(title);
 
@@ -136,11 +134,11 @@ export const renderListView = (caller) => {
         li.appendChild(card);
 
         ul.appendChild(li);
-    })
+    });
 
     return ul;
 
-}
+};
 
 /**
  * renders the MovieFavoritesList view
@@ -156,7 +154,7 @@ export const renderFavoritesListView = (caller) => {
 
         const firstSpan = document.createElement('span');
         firstSpan.textContent = movie.data.title;
-        firstSpan.classList = 'flex gap-2 items-center'
+        firstSpan.classList = 'flex gap-2 items-center';
 
         const percentage = parseFloat(movie.data.vote_average) * 10;
         const svg = createPercentageSvg(percentage);
@@ -184,7 +182,7 @@ export const renderFavoritesListView = (caller) => {
         const removeBtn = document.createElement('button');
         removeBtn.classList = 'action-button movie-button movie-button-red';
         //removeBtn.textContent = 'remove';
-        removeBtn.innerHTML = '&#10005;'
+        removeBtn.innerHTML = '&#10005;';
         removeBtn.dataset.id = movie.data.id;
         removeBtn.dataset.action = 'remove';
         removeBtn.dataset.caller = caller.constructor.name; // pass the name of the Class
@@ -208,12 +206,12 @@ export const renderFavoritesListView = (caller) => {
     });
 
     return ul;
-}
+};
 
 /**
  * renders the Movie view
  * @param {Movie} caller the calling class instance
- * @param {String} pathToImages 
+ * @param {String} pathToImages
  * @returns {Element} the element to be displayed
  */
 export const renderDetailsView = (caller, pathToImages) => {
@@ -264,13 +262,13 @@ export const renderDetailsView = (caller, pathToImages) => {
     divR.classList = 'flex-1 basis-3/4';
 
     const title = document.createElement('h3');
-    title.classList = 'text-5xl text-white'
+    title.classList = 'text-5xl text-white';
     title.textContent = caller.data.title;
     divR.appendChild(title);
 
     if (caller.data.original_title !== caller.data.title) {
         const originalTitle = document.createElement('h4');
-        originalTitle.classList = 'text-xl text-white'
+        originalTitle.classList = 'text-xl text-white';
         originalTitle.textContent = 'Original title: ' + caller.data.original_title;
         divR.appendChild(originalTitle);
     }
@@ -281,15 +279,14 @@ export const renderDetailsView = (caller, pathToImages) => {
     divR.appendChild(overviewTitle);
 
     const overview = document.createElement('p');
-    overview.classList = 'text-white mb-6'
+    overview.classList = 'text-white mb-6';
     overview.textContent = caller.data.overview;
     divR.appendChild(overview);
 
 
-
     const details = document.createElement('div');
     details.id = 'additionalMovieDetails';
-    details.classList = 'text-white my-6'
+    details.classList = 'text-white my-6';
     details.textContent = 'details';
     divR.appendChild(details);
 
@@ -298,17 +295,13 @@ export const renderDetailsView = (caller, pathToImages) => {
     const svg = createPercentageSvg(percentage);
     svg.classList = 'w-20 h-20';
     divR.appendChild(svg);
-
-
     innerDiv.appendChild(divR);
-
     cover.appendChild(innerDiv);
-
     out.appendChild(cover);
 
-    return out
+    return out;
 
-}
+};
 
 export const renderModalComments = (caller, movie) => {
 
@@ -341,7 +334,7 @@ export const renderModalComments = (caller, movie) => {
     const ul = document.createElement('ul');
     movie.data.commentsList.forEach((comment) => {
         const li = document.createElement('li');
-        li.classList = 'p-2 pl-3 text-gray-800 bg-white rounded shadow mb-1 flex flex-col'
+        li.classList = 'p-2 pl-3 text-gray-800 bg-white rounded shadow mb-1 flex flex-col';
 
         const ts = new Date(comment.timestamp);
         const time = document.createElement('span');
@@ -363,11 +356,11 @@ export const renderModalComments = (caller, movie) => {
         li.appendChild(btn);
 
         ul.appendChild(li);
-    })
+    });
     div.appendChild(ul);
 
-    return div
-}
+    return div;
+};
 
 export const renderMovieAdditionalDetails = (details) => {
     const out = document.createElement('div');
@@ -387,7 +380,6 @@ export const renderMovieAdditionalDetails = (details) => {
     out.appendChild(directorTitle);
 
     const director = details.credits.crew.find((member) => member.department === "Directing");
-    console.log(director);
 
     const dirWrapper = document.createElement('div');
     dirWrapper.classList = 'max-w-32 mb-2';
@@ -415,14 +407,14 @@ export const renderMovieAdditionalDetails = (details) => {
     out.appendChild(genreTitle);
 
     const genreWrapper = document.createElement('div');
-    genreWrapper.classList = 'flew flex-wrap'
+    genreWrapper.classList = 'flew flex-wrap';
     details.genres.forEach((g) => {
         const genre = document.createElement('span');
-        genre.classList = 'px-2 py-0.5 m-1 bg-gray-500 rounded'
+        genre.classList = 'px-2 py-0.5 m-1 bg-gray-500 rounded';
         genre.textContent = g.name;
         genreWrapper.appendChild(genre);
-        console.log(g.name)
-    })
+        console.log(g.name);
+    });
     out.appendChild(genreWrapper);
 
 
@@ -460,9 +452,9 @@ export const renderMovieAdditionalDetails = (details) => {
         }
 
         ul.appendChild(li);
-    })
+    });
 
     out.appendChild(ul);
 
     return out;
-}
+};

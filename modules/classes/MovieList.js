@@ -1,10 +1,5 @@
-import { renderListView, renderFavoritesListView, renderDetailsView } from '../ui.js';
-import { saveListToLocalStorage, getListFromLocalStorage } from '../storage.js';
-import { fetchInitial, fetchMovieDetails } from '../network.js';
-
+import {renderListView} from '../ui.js';
 import {Movie} from './Movie.js';
-
-export {Movie};
 
 /**
  * a list for the retrieved movies
@@ -20,22 +15,24 @@ export class MovieList {
 
     // getters & setters
     set mainInstance(val) {
-        this.#mainInstance = val
+        this.#mainInstance = val;
     }
+
     get mainInstance() {
-        return this.#mainInstance
+        return this.#mainInstance;
     }
 
     set list(val) {
-        this.#list = val
+        this.#list = val;
     }
+
     get list() {
         return this.#list;
     }
 
     /**
      * adds a movie to the list
-     * @param {Movie} movie 
+     * @param {Movie} movie
      */
     addMovie(movie) {
         this.list.push(movie);
@@ -49,8 +46,8 @@ export class MovieList {
     getMovieById(id) {
         // return the first element of the filtered results
         return this.#list.filter((movie) => {
-            return movie.id === parseInt(id)
-        })[0]
+            return movie.id === parseInt(id);
+        })[0];
     }
 
     /**
