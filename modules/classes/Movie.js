@@ -52,7 +52,7 @@ export class Movie {
     }
 
     async fetchMovieDetails() {
-        this.details = await fetchMovies(this, 'id', this.data.id);
+        this.details = await fetchMovies(this, 'id', '', this.data.id);
     }
 
     populateMovieDetails(details) {

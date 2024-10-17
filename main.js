@@ -181,15 +181,11 @@ class Main {
      * handle the events sent to main instance
      * @param {Event} event
      */
-    eventHandler(event) {
+    async eventHandler(event) {
         const dataset = event.currentTarget.dataset;
-        console.log(event);
         switch (dataset.action) {
             case 'view':
-                console.log('view');
-                // show detail view
                 this.renderView('details', dataset.caller, dataset.id);
-
                 const detailsContainer = document.querySelector(this.#detailView);
                 detailsContainer.scrollIntoView(true);
                 break;
@@ -246,7 +242,6 @@ class Main {
                 break;
             case 'addComment':
                 event.preventDefault();
-                console.log('adding comment');
                 const movieCAdd = this.#movieFavoritesList.getMovieById(dataset.id);
                 const text = document.querySelector('#commentText').value;
                 if (text !== '') movieCAdd.addComment(text);
@@ -269,7 +264,7 @@ class Main {
                 event.preventDefault();
                 const searchTerm = document.querySelector('#searchString').value;
                 if (searchTerm) {
-                    this.search(searchTerm);
+                    await this.search(searchTerm);
                 } else {
                     alert('do you really want to search for nothing???');
                 }
@@ -278,16 +273,9 @@ class Main {
         }
     }
 
-    search(searchTerm) {
-        console.log('searching for ', searchTerm);
+    async search(searchTerm) {
         searchTerm = encodeURI(searchTerm);
-
-        fetch(`https://api.themoviedb.org/3/search/movie?query=${searchTerm}&include_adult=false&language=en-US&page=1&api_key=${this.apiKey}`)
-            .then(response => response.json())
-            .then(response => {
-                this.showSearchResults(response.results, searchTerm);
-            })
-            .catch(err => console.error(err));
+        await fetchMovies(this, 'search', searchTerm);
     }
 
     async showSearchResults(results, searchTerm) {
