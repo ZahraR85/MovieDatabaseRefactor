@@ -283,6 +283,8 @@ class Main {
         console.log('searching for ', searchTerm);
         searchTerm = encodeURI(searchTerm);
 
+
+        // TODO: move this to network.js
         const url = `https://api.themoviedb.org/3/search/movie?query=${searchTerm}&include_adult=false&language=en-US&page=1&api_key=${this.apiKey}`;
         const rsults = fetch(url)
             .then(response => response.json())

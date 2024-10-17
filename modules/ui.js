@@ -10,59 +10,6 @@ import { checkInStorage } from './storage.js';
  * @returns {Element} the rendered Element
  */
 export const renderListView = (caller) => {
-    // create list
-    /*     const ul = document.createElement('ul');
-        caller.list.forEach((movie) => {
-            const li = document.createElement('li');
-            li.classList = 'flex p-2 pl-3 text-gray-800 bg-white rounded shadow mb-1 justify-between items-center';
-    
-            const firstSpan = document.createElement('span');
-            firstSpan.textContent = movie.data.title;
-            firstSpan.classList = 'flex gap-2 items-center'
-    
-            const percentage = parseFloat(movie.data.vote_average) * 10;
-            const svg = createPercentageSvg(percentage);
-            //svg.classList = 'w-10 h-10 bg-black';
-            svg.classList = 'w-10 h-10';
-            firstSpan.prepend(svg);
-    
-    
-            li.appendChild(firstSpan);
-    
-    
-            const span = document.createElement('span');
-            span.classList = 'flex gap-2';
-    
-            const viewBtn = document.createElement('button');
-            viewBtn.classList = 'action-button movie-button movie-button-green';
-            //viewBtn.textContent = 'view';
-            viewBtn.innerHTML = '&#x1f441;';
-            viewBtn.dataset.id = movie.data.id;
-            viewBtn.dataset.action = 'view';
-            viewBtn.dataset.caller = caller.constructor.name; // pass the name of the Class
-            viewBtn.addEventListener('click', (event) => caller.mainInstance.eventHandler(event));
-            span.appendChild(viewBtn);
-    
-            const addBtn = document.createElement('button');
-            addBtn.classList = 'action-button movie-button movie-button-green';
-            //addBtn.textContent = 'add';
-            addBtn.innerHTML = '&#9829;';
-            addBtn.dataset.id = movie.data.id;
-            addBtn.dataset.action = 'add';
-            addBtn.dataset.caller = caller.constructor.name; // pass the name of the Class
-            addBtn.addEventListener('click', (event) => caller.mainInstance.eventHandler(event));
-            span.appendChild(addBtn);
-    
-            li.appendChild(span);
-    
-            ul.appendChild(li);
-        });
-    
-        return ul;
-    
-     */
-
-
     const ul = document.createElement('ul');
     ul.classList = 'py-8 px-4 lg:px-6 flex gap-8 overflow-x-scroll bg-red-900'
 
@@ -82,7 +29,6 @@ export const renderListView = (caller) => {
         link.dataset.id = movie.data.id;
         link.dataset.action = 'view';
         link.dataset.caller = caller.constructor.name; // pass the name of the Class
-        link.addEventListener('click', (event) => caller.mainInstance.eventHandler(event));
         link.addEventListener('click', (event) => caller.mainInstance.eventHandler(event));
 
         const img = document.createElement('img');
@@ -217,28 +163,7 @@ export const renderFavoritesListView = (caller) => {
  * @returns {Element} the element to be displayed
  */
 export const renderDetailsView = (caller, pathToImages) => {
-    // TODO: fetch detail data first!
 
-    // TODO: build output...
-    /*     const out = document.createElement('div');
-    
-        const test = document.createElement('p');
-        test.innerHTML = '<strong>"' + caller.data.title + '"</strong> [' + caller.data.release_date + ']';
-        if (caller.data.title !== caller.data.original_title) test.innerHTML += '<br>(' + caller.data.original_title + ')';
-        test.innerHTML += '<br>created by Movie.renderView<br>has to be fetched every time';
-        out.appendChild(test);
-    
-        const img = document.createElement('img');
-        img.src = pathToImages + caller.data.poster_path;
-        out.appendChild(img);
-    
-        const overview = document.createElement('p');
-        overview.textContent = caller.data.overview;
-        out.appendChild(overview);
-    
-        return out;
-    
-     */
     const out = document.createElement('div');
     out.classList = `bg-cover bg-center bg-[url(https://media.themoviedb.org/t/p/w1920_and_h800_multi_faces/${caller.data.poster_path})]`;
 

@@ -6,8 +6,7 @@
  * @param {Array} arr the array to save
  */
 export const saveListToLocalStorage = (localStorageName, arr) => {
-    console.log(arr)
-
+    const storageName = localStorageName || 'movieFavs';
     localStorage.setItem(localStorageName, JSON.stringify(arr));
 }
 
@@ -18,7 +17,8 @@ export const saveListToLocalStorage = (localStorageName, arr) => {
  * @returns {Array} an array of movie (objects) from the local storage 
  */
 export const getListFromLocalStorage = (localStorageName) => {
-    return JSON.parse(localStorage.getItem('movieFavs')) || [];
+    const storageName = localStorageName || 'movieFavs';
+    return JSON.parse(localStorage.getItem(storageName)) || [];
 }
 
 // data adapted from Besslan
@@ -31,7 +31,7 @@ export const addToStorage = (movie,localStorageName) => {
     const storageName = localStorageName || 'movieFavs';
     const list = JSON.parse(localStorage.getItem(storageName)) || [];
     list.push(movie.data);
-    localStorage.setItem("movieFavs", JSON.stringify(list));
+    localStorage.setItem(storageName, JSON.stringify(list));
 };
 
 /**
@@ -42,7 +42,7 @@ export const removeFromStorage = (movie,localStorageName) => {
     const storageName = localStorageName || 'movieFavs';
     const list = JSON.parse(localStorage.getItem(storageName)) || [];
     const newlist = list.filter((item) => item.id !== movie.data.id);
-    localStorage.setItem("movieFavs", JSON.stringify(newlist));
+    localStorage.setItem(storageName, JSON.stringify(newlist));
 };
 
 /**
