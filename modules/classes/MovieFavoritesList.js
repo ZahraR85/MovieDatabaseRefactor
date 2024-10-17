@@ -1,5 +1,11 @@
 import {renderFavoritesListView} from '../ui.js';
-import {saveListToLocalStorage, getListFromLocalStorage, addToStorage, checkInStorage} from '../storage.js';
+import {
+    saveListToLocalStorage,
+    getListFromLocalStorage,
+    addToStorage,
+    checkInStorage,
+    removeFromStorage,
+} from '../storage.js';
 import {MovieList} from './MovieList.js';
 import {Movie} from './Movie.js';
 
@@ -37,6 +43,7 @@ export class MovieFavoritesList extends MovieList {
             }
         } else {
             this.list.push(movie);
+            removeFromStorage(movie, this.localStorageName);
         }
     }
 
