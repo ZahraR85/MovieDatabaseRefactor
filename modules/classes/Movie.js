@@ -72,7 +72,7 @@ export class Movie {
      * @returns {Element} the element to be displayed
      */
     renderView(pathToImages) {
-        this.fetchMovieDetails();
+        void this.fetchMovieDetails();
         return renderDetailsView(this, pathToImages);
     }
 

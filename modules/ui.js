@@ -413,7 +413,6 @@ export const renderMovieAdditionalDetails = (details) => {
         genre.classList = 'px-2 py-0.5 m-1 bg-gray-500 rounded';
         genre.textContent = g.name;
         genreWrapper.appendChild(genre);
-        console.log(g.name);
     });
     out.appendChild(genreWrapper);
 

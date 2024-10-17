@@ -156,7 +156,6 @@ class Main {
                 break;
             case 'movieFavoritesList':
                 // render the movieFavoriteList
-                console.log(this.#movieFavoritesListView);
                 outContainer = document.querySelector(this.#movieFavoritesListView);
                 outContainer.innerHTML = '';
                 content = this.#movieFavoritesList.renderView();
@@ -211,7 +210,6 @@ class Main {
             case 'remove':
                 // remove movies from favorites
                 const movieR = this.#movieFavoritesList.getMovieById(dataset.id);
-                console.log(movieR);
                 if (confirm(`really remove "${movieR.data.title}" from your favorites?`)) {
 
                     this.#movieFavoritesList.removeMovie(movieR);
