@@ -1,9 +1,8 @@
 // modules/network.js
-
 import {initialData} from './initialData.js';
 
 /**
- * the initial fetch from TMDB (retrieves the first page of results based on the initial path)
+ * fetch data from API given a specific mode and parameters
  */
 export const fetchMovies = async (caller, mode, searchQuery = '', id = 0) => {
     try {

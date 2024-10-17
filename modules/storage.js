@@ -20,6 +20,7 @@ export const getListFromLocalStorage = (localStorageName = 'movieFavs') => {
 
 /**
  * adds a movie to the local storage
+ * @param {String} localStorageName the name of the local storage
  * @param {Movie} movie the movie to add
  */
 export const addToStorage = (movie, localStorageName = 'movieFavs') => {
@@ -30,6 +31,7 @@ export const addToStorage = (movie, localStorageName = 'movieFavs') => {
 
 /**
  * removes a movie to the local storage
+ * @param {String} localStorageName the name of the local storage
  * @param {Movie} movie the movie to remove
  */
 export const removeFromStorage = (movie, localStorageName = 'movieFavs') => {
@@ -40,11 +42,11 @@ export const removeFromStorage = (movie, localStorageName = 'movieFavs') => {
 
 /**
  * checks if movie is already in local storage
+ * @param {String} localStorageName the name of the local storage
  * @param {Movie} movie the movie to search for
  * @returns {Boolean}
  */
 export const checkInStorage = (movie, localStorageName = 'movieFavs') => {
     const list = JSON.parse(localStorage.getItem(localStorageName)) || [];
-    const found = list.find((item) => item.id === movie.data.id);
-    return !!found;
+    return list.some((item) => item.id === movie.data.id);
 };
